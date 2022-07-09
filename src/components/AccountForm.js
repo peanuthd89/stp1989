@@ -34,14 +34,13 @@ const AccountForm = ({ action, setToken, setUserData }) => {
         try {
           
           const result = await registerUser(username, password)
-        console.log(result)
-          storeToken(result.token)
-          storeUser(username)
-          setUsername("")
-          setPassword("")
-          
+        console.log("ad",result)
+          setToken(result.token)
+          setUserData({...result, username} )
+          history.push('/profile');
         } catch (error) {
           console.log(error)
+          alert(error.message)
           
         }
       }}   >

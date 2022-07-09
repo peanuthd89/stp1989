@@ -13,11 +13,27 @@ import {
 } from "./components";
 //import { callApi } from "./api";
 import "../src/style.css";
+const BASE_URL = "https://strangers-things.herokuapp.com/api/2202-ftb-et-web-pt"
 
 const App = () => {
   const [token, setToken] = useState("");
   const [userData, setUserData] = useState({});
   const [posts, setPosts] = useState([]);
+ 
+
+useEffect(() => {
+  const fetchPosts = async () => {
+ try {
+      const response = await fetch(`${BASE_URL}/posts`)
+      const result = await response.json()
+      const data = result.data.posts
+      setPosts(data)
+    } catch(error) {
+    console.log(error)
+  }
+}
+fetchPosts()
+}, [])
 
   // const fetchUserData = async (token) => {
   //   const { data } = await callApi({
@@ -63,9 +79,10 @@ const App = () => {
         {userData.username && (
           <p>Welcome back to Stranger's Things {userData.username}</p>
         )}
+       
         {!userData.username && <p>Welcome to Stranger's Things</p>}
       </div>
-      <Nav token={token} />
+      <Nav token={token} setToken={setToken} setUserdata={setUserData}/>
 
       <Switch>
         <Route exact path="/"></Route>
@@ -100,20 +117,19 @@ const App = () => {
         <Route path="/posts/:postId">
           <SinglePost posts={posts} token={token} />
         </Route>
-        <Route path="/register">
-          <AccountForm
-            action="register"
-            setToken={setToken}
-            setUserData={setUserData}
-          />
-        </Route>
-        <Route path="/login">
-          <Login
-            action="login"
-            setToken={setToken}
-            setUserData={setUserData}
-          />
-        </Route>
+ 
+          <Route path="/register">
+              <AccountForm
+                action="register"
+                setToken={setToken}
+                setUserData={setUserData} />
+            </Route><Route path="/login">
+                <Login
+                  action="login"
+                  setToken={setToken}
+                  setUserData={setUserData} />
+              </Route>
+     
       </Switch>
     </>
   );

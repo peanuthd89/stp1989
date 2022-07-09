@@ -4,25 +4,8 @@ import { useHistory } from "react-router";
 //import { SinglePost } from "./SinglePost"
 import { BASE_URL, callApi } from "../api";
 
-const Post= ({isLoggedIn}) => {
-  const BASE_URL = "https://strangers-things.herokuapp.com/api/2202-ftb-et-web-pt"
-  const [posts, setPosts] = useState([])
-  const [user, setUser] = useState([])
-  const history = useHistory()
+const Post= ({posts}) => {
 
-useEffect(() => {
-  const fetchPosts = async () => {
- try {
-      const response = await fetch(`${BASE_URL}/posts`)
-      const result = await response.json()
-      const data = result.data.posts
-      setPosts(data)
-    } catch(error) {
-    console.log(error)
-  }
-}
-fetchPosts()
-}, [])
 
 
 return (

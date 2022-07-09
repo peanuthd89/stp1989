@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const Nav = ({ token }) => {
+const Nav = ({ token, setToken, setUserData }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (token !== "") {
       setIsLoggedIn(true);
-    } else {
+    } else if(token === ""){
       setIsLoggedIn(false);
     }
   }, [token]);
@@ -31,6 +31,8 @@ const Nav = ({ token }) => {
                 <Link
                   to="/"
                   onClick={() => {
+                    setToken("");
+                    setUserData({})
                     localStorage.removeItem("token");
                     setIsLoggedIn(false);
                   }}

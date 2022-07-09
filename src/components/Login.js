@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { API_URL } from "../api";
 import { useHistory } from "react-router-dom";
+import { storeToken } from "../auth";
 
 const BASE_URL =
   "https://strangers-things.herokuapp.com/api/2202-ftb-et-web-pt/users";
 
-const Login = () => {
+const Login = ({setToken, setUserData}) => {
+  const history = useHistory();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   
@@ -28,10 +30,12 @@ const Login = () => {
 
     if (response) {
       const data = await response.json();
+      console.log("response", data)
       const token = data.data.token;
       localStorage.setItem("token", token);
-      setUsername("");
-      setPassword("");
+      setToken(token);
+      setUserData({...data.data, username})
+      history.push("/profile");
     }
 
     setUsername("");
